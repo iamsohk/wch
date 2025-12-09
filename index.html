@@ -88,9 +88,12 @@
         // --- 核心功能 ---
         function getCollectionRef(colName) {
              if (envConfig) {
+                 // AI 預覽環境 (保持不變)
                  return collection(db, 'artifacts', appId, 'public', 'data', colName);
              } else {
-                 return collection(db, colName);
+                 // [更新] GitHub / 正式環境：加前綴 "wanchai_" 避免撞資料
+                 // 變為: wanchai_notes, wanchai_calendar_events
+                 return collection(db, `wanchai_${colName}`);
              }
         }
 
