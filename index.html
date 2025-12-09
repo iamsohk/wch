@@ -106,10 +106,10 @@
             }
         };
 
-        // --- 月曆與更份邏輯 (ROSTER LOGIC - CORRECTED) ---
+        // --- 月曆與更份邏輯 (ROSTER LOGIC) ---
         
         // 計算該日是 A/B/C 邊個 Watch
-        // [更正基準] 2025-12-01 是 A Watch (1號 A, 2號 B, 3號 C)
+        // 基準: 2025-12-01 是 A Watch
         function getWatchChar(year, month, day) {
             // Anchor: 2025 Dec 1
             const anchorDate = new Date(2025, 11, 1); 
@@ -123,7 +123,7 @@
             const diffTime = targetDate.getTime() - anchorDate.getTime();
             const diffDays = Math.round(diffTime / oneDay);
             
-            // 數學 Modulo 處理負數 (確保之前的日子都準)
+            // 數學 Modulo 處理負數
             let remainder = diffDays % 3;
             if (remainder < 0) remainder += 3;
 
@@ -160,10 +160,10 @@
             const grid = document.getElementById('calendar-grid');
             grid.innerHTML = '';
 
-            // 空白日
+            // [修正] 移除 'hidden md:block'，確保手機版都有空白格，對齊星期
             for (let i = 0; i < firstDay; i++) {
                 const blank = document.createElement('div');
-                blank.className = "bg-gray-100 border border-gray-300 opacity-50 hidden md:block"; 
+                blank.className = "bg-gray-100 border border-gray-300 opacity-50"; 
                 grid.appendChild(blank);
             }
 
@@ -175,7 +175,6 @@
                 const watchChar = getWatchChar(year, month, i);
                 let watchColorClass = "";
                 
-                // [顏色設定] A=Purple, B=Green, C=Blue
                 if (watchChar === 'A') watchColorClass = "bg-purple-600 text-white border-purple-800";
                 if (watchChar === 'B') watchColorClass = "bg-green-600 text-white border-green-800";
                 if (watchChar === 'C') watchColorClass = "bg-blue-600 text-white border-blue-800";
@@ -358,7 +357,8 @@
         <div class="bg-white border-4 border-black p-8 w-full max-w-md shadow-[8px_8px_0px_#b91c1c] relative text-center">
             <div class="hazard-stripe h-4 w-full absolute top-0 left-0 border-b-2 border-black"></div>
             <h1 class="text-3xl font-industrial text-black mt-6 mb-2 tracking-widest uppercase">STATION ACCESS</h1>
-            <input type="password" id="access-code" placeholder="ENTER CODE (8888)" class="w-full bg-gray-100 border-2 border-black text-black font-mono text-center text-xl p-3 mb-4 focus:outline-none focus:border-red-600">
+            <!-- [修正] 移除 placeholder 內的密碼提示 -->
+            <input type="password" id="access-code" placeholder="ENTER CODE" class="w-full bg-gray-100 border-2 border-black text-black font-mono text-center text-xl p-3 mb-4 focus:outline-none focus:border-red-600">
             <button onclick="checkPass()" class="w-full bg-black hover:bg-gray-800 text-white font-bold font-mono py-3 px-4 transition-colors border-2 border-transparent hover:border-red-500">LOGIN >></button>
             <p id="error-msg" class="text-red-600 font-bold mt-4 hidden">ACCESS DENIED</p>
             <div class="hazard-stripe h-4 w-full absolute bottom-0 left-0 border-t-2 border-black"></div>
@@ -441,7 +441,7 @@
         </div>
 
         <footer class="mt-8 text-center pb-8">
-            <p class="font-mono text-[10px] text-gray-500 bg-white inline-block px-4 py-1 border border-gray-300">WAN CHAI FIRE STATION // SYSTEM VER 3.4</p>
+            <p class="font-mono text-[10px] text-gray-500 bg-white inline-block px-4 py-1 border border-gray-300">WAN CHAI FIRE STATION // SYSTEM VER 3.5</p>
         </footer>
     </div>
 </body>
